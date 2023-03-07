@@ -1,5 +1,5 @@
 
-"""Project 7 - Employee attrition prediction.py
+"""Project 4 - Employee attrition prediction.py
 
 # Part 1: Data preprocessing
 
@@ -8,7 +8,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-dataset = pd.read_csv('/content/Employee Attrition.csv')
+dataset = pd.read_csv('Employee Attrition.csv')
 
 dataset['StandardHours'].unique()
 
@@ -86,57 +86,29 @@ dataset.select_dtypes(include=['object']).columns
 
 len(dataset.select_dtypes(include=['object']).columns)
 
-dataset.shape
-
 dataset = pd.get_dummies(data=dataset, drop_first=True)
 
 # categorical columns
 dataset.select_dtypes(include=['object']).columns
 
-dataset.head()
-
-dataset.shape
-
 """## Split the dataset into train and test set"""
 
-dataset.head()
-
 dataset.rename(columns={"Attrition_Yes": "Attrition"}, inplace=True)
-
-dataset.columns
 
 # matrix of features / independent variables
 x = dataset.drop(columns='Attrition')
 
-x.shape
-
 # dependent variable
 y = dataset['Attrition']
-
-y.shape
 
 # split the dataset
 from sklearn.model_selection import train_test_split
 x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=0)
 
-x_train.shape
-
-x_test.shape
-
-y_train.shape
-
-y_test.shape
-
-"""## Feature scaling"""
-
 from sklearn.preprocessing import StandardScaler
 sc = StandardScaler()
 x_train = sc.fit_transform(x_train)
 x_test = sc.transform(x_test)
-
-x_train
-
-x_test
 
 """# Part 2: Building the model
 
@@ -159,8 +131,6 @@ f1 = f1_score(y_test, y_pred)
 results = pd.DataFrame([['Logistic Regression', acc, prec, rec, f1]],
                columns = ['Model', 'Accuracy', 'Precision', 'Recall', 'F1 Score'])
 
-results
-
 cm = confusion_matrix(y_test, y_pred)
 print(cm)
 
@@ -182,7 +152,6 @@ model_results = pd.DataFrame([['Random Forest', acc, prec, rec, f1]],
 
 
 results = results.append(model_results, ignore_index = True)
-results
 
 cm = confusion_matrix(y_test, y_pred)
 print(cm)
@@ -205,7 +174,6 @@ model_results = pd.DataFrame([['XGBoost', acc, prec, rec, f1]],
 
 
 results = results.append(model_results, ignore_index = True)
-results
 
 from sklearn.metrics import confusion_matrix, accuracy_score, classification_report
 cm = confusion_matrix(y_test, y_pred)
@@ -271,8 +239,6 @@ print("Accuracy is {:.2f} %".format(accuracies.mean()*100))
 print("Standard Deviation is {:.2f} %".format(accuracies.std()*100))
 
 """# Part 6: Predicting a single observation"""
-
-dataset.head()
 
 single_obs = [[41, 1102,	1, 2,	2,	94,	3,	2,	4,	5993,	19479,	8,	11,	3,	1,	0,	8,	0,	1,	6,	4,	0,	5, 
                0,	1,	0,	1,	1,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	0,	1,	0,	0,	1,	1]]
